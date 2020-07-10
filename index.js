@@ -24,6 +24,21 @@ function showMemeryUse(time=1000){
     memeryShowerInterVal=setInterval(function(){console.log(`heapUsed: ${process.memoryUsage().heapUsed}`)}, time)
 }
 
+let debugEnable=false
+
+function enableDebug() {
+    debugEnable=true
+}
+
+function disableDebug() {
+    debugEnable=false
+}
+function debug(arg){
+    if(debugEnable){
+        console.log(arg)
+    }
+}
+
 function sleep(time = 0) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
