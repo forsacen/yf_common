@@ -34,9 +34,11 @@ function disableDebug() {
     debugEnable=false
 }
 
-function debug(arg){
+function debug(){
     if(debugEnable){
-        console.log(`[debug][${new Date().toISOString()}] ${arg}`)
+        for(let i=0;i<arguments.length;i++){
+            console.log(`[debug][${new Date().toISOString()}] ${arguments[i].toString()}`)
+        }
     }
 }
 
