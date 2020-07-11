@@ -33,10 +33,21 @@ function enableDebug() {
 function disableDebug() {
     debugEnable=false
 }
+
 function debug(arg){
     if(debugEnable){
-        console.log(arg)
+        console.log(`[debug][${new Date().toISOString()}] ${arg}`)
     }
+}
+
+function parseArgv(){
+    let argv={}
+    for(let i=0;i<process.argv.length-1;i++){
+        if(process.argv[i].startsWith('--')){
+            argv[process.argv[i]]=process.argv[i+1]
+        }
+    }
+    return argv
 }
 
 function sleep(time = 0) {
@@ -52,4 +63,5 @@ module.exports={
     sleep:sleep,
     showMemeryUse:showMemeryUse,
     unShowMemeryUse:unShowMemeryUse,
+    parseArgv:parseArgv,
 }
