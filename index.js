@@ -64,4 +64,7 @@ module.exports={
     showMemeryUse:showMemeryUse,
     unShowMemeryUse:unShowMemeryUse,
     parseArgv:parseArgv,
+    enableDebug:enableDebug,
+    disableDebug:disableDebug,
+    debug:debug,
 }
