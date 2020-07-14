@@ -60,6 +60,22 @@ function sleep(time = 0) {
     })
 }
 
+//meta
+getLinearDataFromObject=function(obj){
+    let result={}
+    for(let k in obj){
+        if(typeof obj[k]=='object'){
+            let r =this.getLinearData(obj[k])
+            for(let ck in r){
+                result[k+'.'+ck]=r[ck]
+            }
+        }else{
+            result[k]=obj[k]
+        }
+    }
+    return result
+}
+
 module.exports={
     makeMongoUrl:makeMongoUrl,
     sleep:sleep,
@@ -69,4 +85,5 @@ module.exports={
     enableDebug:enableDebug,
     disableDebug:disableDebug,
     debug:debug,
+    getLinearDataFromObject:getLinearDataFromObject,
 }
