@@ -61,7 +61,7 @@ function sleep(time = 0) {
 }
 
 //meta
-getLinearDataFromObject=function(obj){
+function getLinearDataFromObject(obj){
     let result={}
     for(let k in obj){
         if(typeof obj[k]=='object'){
@@ -75,6 +75,21 @@ getLinearDataFromObject=function(obj){
     }
     return result
 }
+//
+function type(o) {
+    if (o === null) {
+        return 'null'
+    }
+    if (o instanceof Array) {
+        return 'array'
+    } else if (o instanceof Object) {
+        return 'object'
+    } else {
+        return typeof o
+    }
+}
+
+
 
 module.exports={
     makeMongoUrl:makeMongoUrl,
@@ -85,5 +100,6 @@ module.exports={
     enableDebug:enableDebug,
     disableDebug:disableDebug,
     debug:debug,
+    type:type,
     getLinearDataFromObject:getLinearDataFromObject,
 }
