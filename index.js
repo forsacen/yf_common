@@ -1,6 +1,6 @@
 const process=require('process')
 function makeMongoUrl(option){
-    let sechma='mongodb',user='',password='',sep1='',sep2=''
+    let sechma='mongodb',user='',password='',sep1='',sep2='',argv=''
     if(option.auth){
         user=option.auth.user
         password=option.auth.password
@@ -10,7 +10,10 @@ function makeMongoUrl(option){
     if(option.srv){
         sechma+='+srv'
     }
-    return `${sechma}://${user}${sep1}${password}${sep2}${option.addr}`
+    if(option.argv){
+        argv+='?'+option.argv
+    }
+    return `${sechma}://${user}${sep1}${password}${sep2}${option.addr}${argv}`
 }
 let memeryShowerInterVal=null
 function unShowMemeryUse() {
