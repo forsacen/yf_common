@@ -1,4 +1,5 @@
 const process=require('process')
+const util=require('util')
 function makeMongoUrl(option){
     let sechma='mongodb',user='',password='',sep1='',sep2='',argv=''
     if(option.auth){
@@ -94,8 +95,6 @@ function type(o) {
         return typeof o
     }
 }
-
-
 
 module.exports={
     makeMongoUrl:makeMongoUrl,
