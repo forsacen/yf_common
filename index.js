@@ -71,8 +71,8 @@ function sleep(time = 0) {
 function getLinearDataFromObject(obj){
     let result={}
     for(let k in obj){
-        if(typeof obj[k]=='object'){
-            let r =this.getLinearData(obj[k])
+        if(type( obj[k])=='object'){
+            let r =this.getLinearDataFromObject(obj[k])
             for(let ck in r){
                 result[k+'.'+ck]=r[ck]
             }
@@ -89,11 +89,18 @@ function type(o) {
     }
     if (o instanceof Array) {
         return 'array'
-    } else if (o instanceof Object) {
+    } else if(Buffer.isBuffer(o)){
+        return 'buffer'
+    }else if (o instanceof Object) {
         return 'object'
     } else {
         return typeof o
     }
+}
+//字符串转换为同名变量
+function stringToVar(string){
+    let script = '(function(){var v=' + string+';return v})()';
+    return eval(script);
 }
 
 module.exports={
@@ -107,4 +114,5 @@ module.exports={
     debug:debug,
     type:type,
     getLinearDataFromObject:getLinearDataFromObject,
+    stringToVar:stringToVar,
 }
