@@ -1,5 +1,6 @@
 const process=require('process')
-const util=require('util')
+const fs=require('fs')
+const path=require('path')
 function makeMongoUrl(option){
     let sechma='mongodb',user='',password='',sep1='',sep2='',argv=''
     if(option.auth){
@@ -43,8 +44,21 @@ function disableDebug() {
 
 function debug(){
     if(debugEnable){
+        let oldPrepareStackTrace = Error.prepareStackTrace
+        Error.prepareStackTrace = function (error, stack){
+            return stack
+        }
+        let stack=new Error().stack
+        Error.prepareStackTrace=oldPrepareStackTrace
+        let line=stack[1].getLineNumber()
+        let file=stack[1].getFileName()
+        console.log(`[debug][${new Date().toISOString()}]  ${file}  ${line}`)
         for(let i=0;i<arguments.length;i++){
-            console.log(`[debug][${new Date().toISOString()}] ${arguments[i].toString()}`)
+            try{
+                console.log(`${arguments[i].toString()}`)
+            }catch (e) {
+                console.log(`${arguments[i]}`)
+            }
         }
     }
 }
@@ -102,6 +116,32 @@ function stringToVar(string){
     let script = '(function(){var v=' + string+';return v})()';
     return eval(script);
 }
+//删除文件夹
+function deleteFolder(url) {
+    let files = [];
+    if (fs.existsSync(url)) {
+        files = fs.readdirSync(url);
+        files.forEach(function (file, index) {
+
+            const curPath = path.join(url, file);
+            console.log(curPath);
+            /**
+             * fs.statSync同步读取文件夹文件，如果是文件夹，在重复触发函数
+             */
+            if (fs.statSync(curPath).isDirectory()) { // recurse
+                deleteFolderRecursive(curPath);
+
+            } else {
+                fs.unlinkSync(curPath);
+            }
+        });
+        /**
+         * 清除文件夹
+         */
+        fs.rmdirSync(url);
+
+    }
+}
 
 module.exports={
     makeMongoUrl:makeMongoUrl,
@@ -115,4 +155,5 @@ module.exports={
     type:type,
     getLinearDataFromObject:getLinearDataFromObject,
     stringToVar:stringToVar,
+    deleteFolder:deleteFolder,
 }
