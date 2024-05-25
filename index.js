@@ -143,6 +143,17 @@ function deleteFolder(url) {
     }
 }
 
+function getClientIp(req){
+    return (req.headers['x-forwarded-for']&&ctx.headers['x-forwarded-for'].split(',')[0])|| // 判断是否有反向代理 IP
+        //req.headers['x-real-ip']||
+        req.connection.remoteAddress || // 判断 connection 的远程 IP
+        req.socket.remoteAddress || // 判断后端的 socket 的 IP
+        (req.connection.socket ? req.connection.socket.remoteAddress : null)||
+        req.request.ip||
+        req.ip
+}
+
+
 module.exports={
     makeMongoUrl:makeMongoUrl,
     sleep:sleep,
@@ -156,4 +167,5 @@ module.exports={
     getLinearDataFromObject:getLinearDataFromObject,
     stringToVar:stringToVar,
     deleteFolder:deleteFolder,
+    getClientIp:getClientIp,
 }
